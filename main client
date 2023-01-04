@@ -1,0 +1,24 @@
+#include <sys/socket.h>
+#include <string>
+#include <iostream>
+#include <unistd.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+using namespace std;
+
+int   main(int length,char** args){
+ const int port= 2222;
+ const char* ip_address = "127.0.0.1";
+ int sock =  socket(AF_INET, SOCK_DGRAM,0);
+ if(sock < 0){
+    cout<< "can't create socket"<<endl ;
+ }
+  struct sockaddr_in sin; 
+  sin.sin_family = AF_INET;
+  sin.sin_addr.s_addr = inet_addr(ip_address);
+  sin.sin_port = htons(port);
+  int connect =  bind(sock,(struct sockaddr*)&sin, sizeof(sin));
+  if (connect < 0){
+    cout<<"can't bind the server with the client"<<endl;
+      return -1;
+}
