@@ -15,8 +15,8 @@
 using namespace std;
 
 int   main(int length,char** args){
- const int port= 2222;
- const char* ip_address = "127.0.0.1";
+ const int port= atoi(args[2]);
+ const char* ip_address =(args[1]);
  int sock =  socket(AF_INET, SOCK_DGRAM,0);
  if(sock < 0){
     cout<< "can't create socket"<<endl ;
