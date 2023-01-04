@@ -45,9 +45,18 @@ int   main(int length,char** args){
         cout<<"invalid ip"<<endl;
         }else j=0;
     }
-    if(ip[i]== 46 && j<3){
-        j=0;
-    }  
+    if(ip[i]== 46 && j == 2){
+        if (ip[i-1]< 0 || ip [i-2] < 1){
+            cout<<" invalid ip"<<endl;
+        } else j=0;
+    }
+
+    if (ip[i]==46 && j==1){
+        if (ip[i-1] < 1) {
+             cout<<" invalid ip"<<endl;
+        }else j=0;
+    }
+         
  }
  int sock =  socket(AF_INET, SOCK_DGRAM,0);
  if(sock < 0){
