@@ -1,3 +1,11 @@
+#include <iostream>
+#include <string>
+#include <vector>
+#include <list>
+#include <map>
+#include "Knn.h"
+#include "VectorDistance.h"
+#include "StreamFiles.h"
 #include <sys/socket.h>
 #include <string>
 #include <iostream>
@@ -22,3 +30,38 @@ int   main(int length,char** args){
     cout<<"can't bind the server with the client"<<endl;
       return -1;
 }
+ 
+    int k =atoi(args[1]);
+    string fileName=args[2];
+    string distanceFunc = args[3];
+    map<string, list<vector<double>>> dataSet;
+    StreamFiles streamer;
+    VectorDistance vectorCalculator;
+    dataSet = streamer.dataMake(fileName);
+     string vectorString;
+    while (getline(cin, vectorString)) {
+    while(k>0){   
+    if (vectorCalculator.validCheck(vectorString) == 1)
+    {
+        cout << "invalid input"<<endl;
+    } else {
+         vector<double> vectorDouble = vectorCalculator.createVector(vectorString);
+         if (vectorDouble.size() != dataSet.begin()->second.begin()->size())
+         {
+             cout << "wrong length of vector"<<endl;
+             
+         } else {
+             
+                 dataSet =vectorCalculator.distanceCalc(dataSet,vectorDouble, distanceFunc);
+                  Knn knn;
+                string name = knn.KnnAlgo(dataSet,k);
+                std::fixed(std::cout);
+                std::cout.precision(16);
+                cout << name << endl;
+                }
+            }
+           
+    }
+}
+    return 0;
+    }
