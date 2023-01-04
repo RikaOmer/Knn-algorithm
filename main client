@@ -15,8 +15,40 @@
 using namespace std;
 
 int   main(int length,char** args){
+
  const int port= atoi(args[2]);
- const char* ip_address =(args[1]);
+ const char* ip =(args[1]);
+ char num[3];
+ int j = 0;
+ int newN ;
+ if (sizeof(ip) > 15){
+    cout<<"invalid ip"<<endl;
+    return -1; 
+ }
+  if (!isdigit(ip[0])){
+    cout<<"invalid ip"<<endl;
+  }
+ for(int i =0 ; i < sizeof(ip); i++){
+    if (isdigit(ip[i])){
+        num[j] = ip[i];
+        j++;
+    }
+    else if(isspace(ip[i])){
+         cout<<"invalid ip"<<endl;
+    }
+    else if ( ip[i] == 46 && j > 3){
+        cout<<"invalid ip"<<endl;
+    }
+    else if (j == 3 && ip[i+1]==46){
+        newN = atoi(num);
+        if(newN>255 || newN<1){
+        cout<<"invalid ip"<<endl;
+        }else j=0;
+    }
+    if(ip[i]== 46 && j<3){
+        j=0;
+    }  
+ }
  int sock =  socket(AF_INET, SOCK_DGRAM,0);
  if(sock < 0){
     cout<< "can't create socket"<<endl ;
