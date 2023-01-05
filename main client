@@ -17,6 +17,9 @@ using namespace std;
 int   main(int length,char** args){
 
  const int port= atoi(args[2]);
+ if (port < 1024 || port > 65535){
+    cout<<" invalid port"<<endl;
+ }
  const char* ip =(args[1]);
  char num[3];
  int j = 0;
