@@ -3,9 +3,12 @@
 #include <sys/socket.h>
 #include <cstring>
 #include <string.h>
+#include <string>
 #include <unistd.h>
 #include <netdb.h>
 #include <arpa/inet.h>
+#include <AlgoRun.h>
+#include <cctype>
 
 using namespace std;
  
@@ -75,9 +78,29 @@ int main(int length,char** args)
         }
  
         string getInfo = string(buf, 0, bytesReceived); // the information that recived from the client *****
- 
+        int i = 0;
+        string funcName;
+
+        while(isalpha(getInfo[i]) == 0){
+            i++;
+        }
+        int j = i;
+        string vectorString = getInfo.substr(0,i-1);
+        while(isalpha(getInfo[i]) != 0){
+            i++;
+        }
+        funcName = getInfo.substr(j,i-j);
+        string kstr = getInfo.substr(i,getInfo.length()-i);
+        int k = stoi(kstr);
+
+        AlgoRun runner;
+        string messege = runner.setKnnAlgo(vectorString, k, fileName, funcName); 
+        const int length = messege.length();
+        char* char_array = new char[length + 1];
+        strcpy(char_array, messege.c_str());
+        
         // Echo message back to client
-        send(clientSocket, buf, bytesReceived + 1, 0);  // sent a message for client
+        send(clientSocket, char_array, length + 1, 0);  // sent a message for client
     }
  
     // Close the socket
