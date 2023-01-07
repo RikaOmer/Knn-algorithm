@@ -6,10 +6,11 @@
 #include "Knn.h"
 #include "VectorDistance.h"
 #include "StreamFiles.h"
+#include "AlgoRun.h"
 
 using namespace std;
 
-string setKnnAlgo(string userVector, int k, string fileName, string distanceFunc){
+string AlgoRun::setKnnAlgo(string userVector, int k, string fileName, string distanceFunc){
     map<string, list<vector<double>>> dataSet;
     StreamFiles streamer;
     VectorDistance vectorCalculator;

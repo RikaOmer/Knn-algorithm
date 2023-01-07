@@ -42,9 +42,10 @@ int main(int length,char** args)
 
     do {
         //		Enter lines of text
-        cout << "> ";
         getline(cin, userInput);
-
+        if(userInput == "-1"){
+            break;
+        }
         //		Send to server
         int sendRes = send(sock, userInput.c_str(), userInput.size() + 1, 0);
         if (sendRes == -1)
@@ -63,7 +64,7 @@ int main(int length,char** args)
         else
         {
             //		Display response
-            cout << "SERVER> " << string(buf, bytesReceived) << "\r\n";
+            cout << string(buf, bytesReceived) << "\r\n";
         }
     } while(true);
 

@@ -7,7 +7,7 @@
 #include <unistd.h>
 #include <netdb.h>
 #include <arpa/inet.h>
-#include <AlgoRun.h>
+#include "AlgoRun.h"
 #include <cctype>
 
 using namespace std;
@@ -40,9 +40,9 @@ int main(int length,char** args)
         return -1;
     }
  
-    // Tell Winsock the socket is for listening
-    listen(listening, SOMAXCONN);
- 
+    listen(listening, SOMAXCONN); // Tell Winsock the socket is for listening
+    while (true)
+    {
     // Wait for a connection
     sockaddr_in client;
     socklen_t clientSize = sizeof(client);
@@ -54,7 +54,7 @@ int main(int length,char** args)
     }
  
     // Close listening socket
-    close(listening); 
+    // close(listening); 
  
     // While loop: accept and echo message back to client
     char buf[4096];
@@ -80,6 +80,8 @@ int main(int length,char** args)
         string getInfo = string(buf, 0, bytesReceived); // the information that recived from the client *****
         int i = 0;
         string funcName;
+        
+        
 
         while(isalpha(getInfo[i]) == 0){
             i++;
@@ -93,18 +95,24 @@ int main(int length,char** args)
         string kstr = getInfo.substr(i,getInfo.length()-i);
         int k = stoi(kstr);
 
+        cout << vectorString << endl;
+        cout << funcName << endl;
+        cout << k << endl;
+        cout << fileName << endl;
         AlgoRun runner;
         string messege = runner.setKnnAlgo(vectorString, k, fileName, funcName); 
         const int length = messege.length();
         char* char_array = new char[length + 1];
         strcpy(char_array, messege.c_str());
-        
-        // Echo message back to client
+
+        // // Echo message back to client
         send(clientSocket, char_array, length + 1, 0);  // sent a message for client
+        cout << messege << endl;
+        // send(clientSocket, buf, bytesReceived + 1, 0); 
+    }
     }
  
-    // Close the socket
-    close(clientSocket);
- 
+    // // Close the socket
+    // close(clientSocket);
     return 0;
 }
